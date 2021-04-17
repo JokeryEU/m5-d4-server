@@ -1,8 +1,6 @@
 import express from "express";
-import fs from "fs-extra";
 import uniqid from "uniqid";
 import { check, validationResult } from "express-validator";
-
 import { getProjects, writeProjects } from "../library/fs-tools.js";
 
 const router = express.Router();
@@ -45,10 +43,7 @@ router.post("/", async (req, res) => {
 
       projects.push(newProject);
 
-      fs.writeFileSync(
-        join(dirName, "projects.json"),
-        JSON.stringify(projects)
-      );
+      await writeProjects(projects);
 
       res.status(201).send({ id: newProject.id });
     } else {
@@ -76,10 +71,7 @@ router.put("/:id", async (req, res) => {
 
     newProject.push(modifiedProject);
 
-    fs.writeFileSync(
-      join(dirName, "projects.json"),
-      JSON.stringify(newProject)
-    );
+    await writeProjects(modifiedProject);
 
     res.send({ data: "HELLO FROM PUT ROUTE!" });
   } catch (error) {
@@ -95,10 +87,7 @@ router.delete("/:id", async (req, res) => {
       (project) => project.id !== req.params.id
     );
 
-    fs.writeFileSync(
-      join(dirName, "projects.json"),
-      JSON.stringify(newProjectArray)
-    );
+    await writeProjects(newProjectArray);
 
     res.status(204).send();
   } catch (error) {

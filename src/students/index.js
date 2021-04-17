@@ -9,7 +9,6 @@
 import express from "express";
 import uniqid from "uniqid";
 import { check, validationResult } from "express-validator";
-
 import { getStudents, writeStudents } from "../library/fs-tools.js";
 
 const router = express.Router();
