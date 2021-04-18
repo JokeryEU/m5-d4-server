@@ -39,8 +39,6 @@ router.post("/", async (req, res) => {
     );
 
     if (existingEmailFilter.length === 0) {
-      newProject.id = uniqid();
-
       projects.push(newProject);
 
       await writeProjects(projects);
